@@ -1,4 +1,3 @@
-````markdown
 # SGEA — Sistema de Gestão de Eventos Acadêmicos
 
 Projeto desenvolvido para a disciplina de Programação Web com Django, com o objetivo de criar um sistema simples para gerenciamento de eventos acadêmicos, permitindo o cadastro de usuários, criação de eventos e emissão de certificados de participação.
@@ -11,7 +10,6 @@ Projeto desenvolvido para a disciplina de Programação Web com Django, com o ob
 
 ## ⚙️ Como executar o projeto
 
-````
 1. **Crie o ambiente virtual:**
    ```bash
    python -m venv .venv
@@ -71,7 +69,3 @@ RA: **22252157**
 Curso: **Ciência da Computação — 7º semestre (UniCEUB)**
 
 Brasília, outubro de 2025.
-
-```
-Quer que eu adicione também uma **seção com imagens** (prints das telas do sistema) e uma **descrição visual**? Fica ótimo pra quando o professor abre o repositório no GitHub.
-```
