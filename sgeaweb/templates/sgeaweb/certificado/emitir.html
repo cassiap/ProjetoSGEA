@@ -1,5 +1,14 @@
+{# Template responsável por exibir o código de validação do certificado emitido.#}
+
 {% extends "sgeaweb/base.html" %}
+
 {% block content %}
-<h2>Certificado emitido</h2>
-<p>Código de validação: <strong>{{ certificado.codigo_validacao }}</strong></p>
+  <h2>Certificado emitido com sucesso</h2>
+
+  <p>
+    Código de validação:
+    <strong>{{ certificado.codigo_validacao }}</strong>
+  </p>
+
+  <p>Guarde este código para futuras verificações de autenticidade.</p>
 {% endblock %}

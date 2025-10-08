@@ -1,16 +1,25 @@
+{# Página responsável por exibir a lista de eventos criados pelo usuário.
+   Aqui também é possível acessar as opções de edição e exclusão de cada evento. #}
+
 {% extends "sgeaweb/base.html" %}
+
 {% block content %}
-<h2>Meus eventos</h2>
-<p><a href="{% url 'evento_create' %}">Novo evento</a></p>
-<ul>
-  {% for e in eventos %}
-    <li>
-      <strong>{{ e.titulo }}</strong> ({{ e.data_inicio }} → {{ e.data_fim }})
-      <a href="{% url 'evento_update' e.id %}">Editar</a> |
-      <a href="{% url 'evento_delete' e.id %}">Excluir</a>
-    </li>
-  {% empty %}
-    <li>Nenhum evento ainda.</li>
-  {% endfor %}
-</ul>
+  <h2>Meus eventos</h2>
+
+  <p>
+    <a href="{% url 'evento_create' %}">+ Novo evento</a>
+  </p>
+
+  <ul>
+    {% for e in eventos %}
+      <li>
+        <strong>{{ e.titulo }}</strong>
+        ({{ e.data_inicio }} → {{ e.data_fim }}) —
+        <a href="{% url 'evento_update' e.id %}">Editar</a> |
+        <a href="{% url 'evento_delete' e.id %}">Excluir</a>
+      </li>
+    {% empty %}
+      <li>Nenhum evento cadastrado até o momento.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

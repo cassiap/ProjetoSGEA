@@ -1,8 +1,16 @@
+{# Página utilizada para edição de um evento já cadastrado.
+   O formulário exibe os dados atuais para que o organizador possa alterar e salvar novamente. #}
+
 {% extends "sgeaweb/base.html" %}
+
 {% block content %}
-<h2>Editar evento</h2>
-<form method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Salvar</button>
-</form>
+  <h2>Editar informações do evento</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Salvar alterações</button>
+    <a href="{% url 'evento_list' %}">Cancelar</a>
+  </form>
 {% endblock %}

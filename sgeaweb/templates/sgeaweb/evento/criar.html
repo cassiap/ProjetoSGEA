@@ -1,8 +1,14 @@
+{# Página para cadastro de um novo evento no sistema.
+   O formulário é renderizado automaticamente pelo Django.#}
 {% extends "sgeaweb/base.html" %}
+
 {% block content %}
-<h2>Novo evento</h2>
-<form method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Salvar</button>
-</form>
+  <h2>Cadastrar novo evento</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <button type="submit">Salvar evento</button>
+  </form>
 {% endblock %}
