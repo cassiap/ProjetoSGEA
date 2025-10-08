@@ -1,11 +1,3 @@
-ótimo ponto 👏 — o README realmente está muito “limpo e genérico”, com aquele jeitinho de template técnico. Podemos deixá-lo **mais natural e acadêmico**, parecendo feito manualmente por você, com linguagem leve e o formato que professores costumam gostar.
-
-Aqui vai uma **versão revisada**, que mantém o conteúdo técnico correto mas com um tom mais pessoal e descritivo:
-
----
-
-### 🧾 README.md (versão revisada para entregar)
-
 ````markdown
 # SGEA — Sistema de Gestão de Eventos Acadêmicos
 
