@@ -1,0 +1,4 @@
+body{font-family:system-ui,Arial,sans-serif;max-width:900px;margin:0 auto;padding:1rem}
+header{display:flex;gap:1rem;align-items:center;justify-content:space-between}
+nav a{margin-right:0.8rem}
+.msg{background:#eef;padding:6px 10px;border-radius:6px}

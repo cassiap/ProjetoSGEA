@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SGEA</title>
+  <link rel="stylesheet" href="{% static 'sgeaweb/css/main.css' %}">
+</head>
+<body>
+  <header>
+    <h1>SGEA</h1>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'minhas_inscricoes' %}">Minhas inscrições</a>
+        <a href="{% url 'logout' %}">Sair</a>
+      {% else %}
+        <a href="{% url 'login' %}">Entrar</a>
+        <a href="{% url 'cadastro' %}">Cadastro</a>
+      {% endif %}
+      {% if user.is_authenticated and user.perfil.perfil == 'ORGANIZADOR' %}
+        <a href="{% url 'evento_list' %}">Meus eventos</a>
+      {% endif %}
+    </nav>
+    {% for message in messages %}
+      <p class="msg">{{ message }}</p>
+    {% endfor %}
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
