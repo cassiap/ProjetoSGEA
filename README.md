@@ -62,6 +62,73 @@ Acesse o sistema em:
 
 ---
 
+```mermaid
+erDiagram
+    USER {
+      int id PK
+      string username
+      string first_name
+      string last_name
+      string email
+    }
+
+    PERFILUSUARIO {
+      int id PK
+      int user_id FK
+      string telefone
+      string instituicao
+      string perfil  "ALUNO | PROFESSOR | ORGANIZADOR"
+    }
+
+    TIPOEVENTO {
+      int id PK
+      string nome
+      string descricao
+      datetime data_criacao
+      datetime data_atualizacao
+    }
+
+    EVENTO {
+      int id PK
+      int TIPO_id FK
+      string titulo
+      string descricao
+      date data_inicio
+      date data_fim
+      string horario
+      string local
+      int vagas
+      int organizador_id FK
+      datetime criado_em
+      datetime atualizado_em
+    }
+
+    INSCRICAO {
+      int id PK
+      int participante_id FK
+      int evento_id FK
+      datetime criado_em
+      %% UNIQUE(participante_id, evento_id)
+    }
+
+    CERTIFICADO {
+      int id PK
+      int inscricao_id FK
+      datetime emitido_em
+      string codigo_validacao
+      %% UNIQUE(inscricao_id), UNIQUE(codigo_validacao)
+    }
+
+    TIPOEVENTO ||--o{ EVENTO : classifica
+    USER ||--|| PERFILUSUARIO : "tem"
+    USER ||--o{ EVENTO : "organiza"
+    EVENTO ||--o{ INSCRICAO : "recebe"
+    USER ||--o{ INSCRICAO : "participa"
+    INSCRICAO ||--|| CERTIFICADO : "certifica"
+
+```
+
+
 ## 👩‍💻 Desenvolvido por
 
 **Cássia Gabriela Gonçalves da Paixão**
