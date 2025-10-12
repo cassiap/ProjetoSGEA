@@ -147,6 +147,6 @@ erDiagram
 
 **Cássia Gabriela Gonçalves da Paixão**
 RA: **22252157**
-Curso: **Ciência da Computação — 7º semestre (UniCEUB)**
+Curso: **Ciência da Computação — 7º semestre**
 
 Brasília, outubro de 2025.
