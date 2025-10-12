@@ -1,30 +1,89 @@
-/* Estilos principais do Sistema de Gestão de Eventos Acadêmicos (SGEA)
-/* Define a fonte e centraliza o conteúdo na tela */
+/* Estilos básicos do SGEA — simples e legível para entrega acadêmica */
+
+/* Layout geral */
+:root {
+  --maxw: 960px;
+  --space: 1rem;
+  --radius: 10px;
+  --border: #e6e6e6;
+}
+
+* { box-sizing: border-box; }
+
 body {
   font-family: system-ui, Arial, sans-serif;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 1rem;
+  background: #fafafa;
+  margin: 0;
+  color: #222;
 }
 
-/* Cabeçalho e menu de navegação */
+header, main {
+  width: min(100%, var(--maxw));
+  margin: 0 auto;
+  padding: var(--space) calc(var(--space) * 1.5);
+}
+
+/* Cabeçalho e navegação */
 header {
   display: flex;
-  gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space);
+  border-bottom: 1px solid var(--border);
+  background: #fff;
 }
 
-/* Links do menu (espaçamento entre eles) */
+h1 { margin: 0; font-size: 1.8rem; letter-spacing: .5px; }
+
 nav a {
-  margin-right: 0.8rem;
+  margin-left: 1rem;
   text-decoration: none;
   color: #333;
 }
+nav a:hover { text-decoration: underline; }
 
-/* Caixa de mensagens (usada para exibir avisos e confirmações) */
+/* Conteúdo */
+h2 { font-size: 1.6rem; margin-top: 1.5rem; }
+
+/* Listas */
+ul { padding-left: 1.2rem; }
+li + li { margin-top: .4rem; }
+
+/* Formulários */
+form p { margin: .6rem 0; }
+label { display: inline-block; min-width: 120px; }
+input, select, textarea {
+  width: min(420px, 100%);
+  padding: .55rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+}
+textarea { resize: vertical; }
+
+/* Botões */
+button, .btn {
+  border: 0;
+  border-radius: 999px;
+  padding: .6rem 1rem;
+  background: #2f6fed;
+  color: white;
+  cursor: pointer;
+}
+button:hover, .btn:hover { filter: brightness(1.05); }
+a.btn-link {
+  display: inline-block;
+  padding: .4rem .7rem;
+  border-radius: 999px;
+  background: #f2f4ff;
+  text-decoration: none;
+}
+
+/* Mensagens do Django */
 .msg {
-  background: #eef;
-  padding: 6px 10px;
-  border-radius: 6px;
+  background: #eef3ff;
+  border: 1px solid #d9e3ff;
+  padding: .6rem .8rem;
+  border-radius: var(--radius);
+  margin: .6rem 0 0;
 }

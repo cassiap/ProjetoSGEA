@@ -1,7 +1,11 @@
+# Modelos do SGEA (Sistema de Gestão de Eventos Acadêmicos)
+
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class TipoEvento(models.Model):
+    """Tabela de tipos (palestra, minicurso, workshop etc.)."""
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True, null=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
@@ -16,12 +20,15 @@ class TipoEvento(models.Model):
     def __str__(self):
         return self.nome
 
+
 class PerfilUsuario(models.Model):
+    """Dados complementares do usuário do Django (perfil e instituição)."""
     PERFIS = (
         ("ALUNO", "Aluno"),
         ("PROFESSOR", "Professor"),
         ("ORGANIZADOR", "Organizador"),
     )
+    # related_name="perfil" permite acessar como user.perfil no projeto
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="perfil")
     telefone = models.CharField(max_length=20, blank=True)
     instituicao = models.CharField(max_length=150)
@@ -33,9 +40,12 @@ class PerfilUsuario(models.Model):
         verbose_name_plural = "Perfis de Usuário"
 
     def __str__(self):
+        # Usa o nome completo se existir; senão, o username
         return f"{self.user.get_full_name() or self.user.username} - {self.perfil}"
 
+
 class Evento(models.Model):
+    """Evento acadêmico que pode receber inscrições."""
     TIPO = models.ForeignKey(TipoEvento, on_delete=models.PROTECT)
     titulo = models.CharField(max_length=200)
     descricao = models.TextField(blank=True)
@@ -57,21 +67,25 @@ class Evento(models.Model):
     def __str__(self):
         return self.titulo
 
+
 class Inscricao(models.Model):
+    """Liga um participante a um evento (1 usuário pode se inscrever 1x por evento)."""
     participante = models.ForeignKey(User, on_delete=models.CASCADE)
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "inscricao"
-        unique_together = ("participante", "evento")
+        unique_together = ("participante", "evento")  # evita duplicidade
         verbose_name = "Inscrição"
         verbose_name_plural = "Inscrições"
 
     def __str__(self):
         return f"{self.participante.username} → {self.evento.titulo}"
 
+
 class Certificado(models.Model):
+    """Certificado emitido para uma inscrição (1:1), com código de validação."""
     inscricao = models.OneToOneField(Inscricao, on_delete=models.CASCADE)
     emitido_em = models.DateTimeField(auto_now_add=True)
     codigo_validacao = models.CharField(max_length=64, unique=True)

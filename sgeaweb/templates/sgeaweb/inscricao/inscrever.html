@@ -1,7 +1,13 @@
+
 {% extends "sgeaweb/base.html" %}
+
 {% block content %}
-<h2>Inscrever-se em: {{ evento.titulo }}</h2>
-<form method="post">{% csrf_token %}
-  <button type="submit">Confirmar inscrição</button>
-</form>
+  <h2>Inscrever-se em: {{ evento.titulo }}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <p>Deseja confirmar sua inscrição neste evento?</p>
+    <button type="submit">Confirmar inscrição</button>
+    <a href="{% url 'home' %}">Cancelar</a>
+  </form>
 {% endblock %}

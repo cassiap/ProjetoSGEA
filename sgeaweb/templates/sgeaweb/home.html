@@ -1,15 +1,18 @@
 {% extends "sgeaweb/base.html" %}
-{% load static %}
 {% block content %}
-<h2>Eventos abertos</h2>
-<ul>
-  {% for e in eventos %}
-    <li>
-      <strong>{{ e.titulo }}</strong> — {{ e.data_inicio }} a {{ e.data_fim }} — {{ e.local }}
-      <a href="{% url 'inscrever' e.id %}">inscrever</a>
-    </li>
-  {% empty %}
-    <li>Nenhum evento disponível.</li>
-  {% endfor %}
-</ul>
+  <h2>Eventos abertos</h2>
+  <ul>
+    {% for e in eventos %}
+      <li>
+        <strong>{{ e.titulo }}</strong> —
+        {{ e.data_inicio|date:"d/m/Y" }} a {{ e.data_fim|date:"d/m/Y" }} — {{ e.local }}
+        <a href="{% url 'inscrever' e.id %}">Inscrever</a>
+      </li>
+    {% empty %}
+      <li>Nenhum evento disponível.</li>
+      {% if user.is_authenticated and user.perfil.perfil == 'ORGANIZADOR' %}
+        <p><a class="btn" href="{% url 'evento_create' %}">+ Criar primeiro evento</a></p>
+      {% endif %}
+    {% endfor %}
+  </ul>
 {% endblock %}

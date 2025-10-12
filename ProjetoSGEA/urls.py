@@ -1,5 +1,5 @@
 # Arquivo responsável por mapear as rotas principais do projeto Django (SGEA)
-# Aqui fazemos a ligação entre o sistema administrativo e as rotas do aplicativo principal (sgeaweb)
+# Aqui foi feita a ligação entre o sistema administrativo e as rotas do aplicativo principal (sgeaweb)
 
 from django.contrib import admin
 from django.urls import path, include

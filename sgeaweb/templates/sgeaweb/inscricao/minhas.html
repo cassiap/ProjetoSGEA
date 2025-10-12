@@ -1,11 +1,16 @@
+
 {% extends "sgeaweb/base.html" %}
+
 {% block content %}
-<h2>Minhas inscrições</h2>
-<ul>
-  {% for i in inscricoes %}
-    <li>{{ i.evento.titulo }} — {{ i.evento.data_inicio }} a {{ i.evento.data_fim }}</li>
-  {% empty %}
-    <li>Você ainda não tem inscrições.</li>
-  {% endfor %}
-</ul>
+  <h2>Minhas inscrições</h2>
+
+  <ul>
+    {% for i in inscricoes %}
+      <li>
+        <strong>{{ i.evento.titulo }}</strong> — {{ i.evento.data_inicio }} a {{ i.evento.data_fim }}
+      </li>
+    {% empty %}
+      <li>Você ainda não possui nenhuma inscrição registrada.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

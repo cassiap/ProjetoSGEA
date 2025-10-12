@@ -1,9 +1,24 @@
+
 {% extends "sgeaweb/base.html" %}
+
 {% block content %}
-<h2>Login</h2>
-<form method="post">{% csrf_token %}
-  <p><label>Usuário: <input type="text" name="username"></label></p>
-  <p><label>Senha: <input type="password" name="password"></label></p>
-  <button type="submit">Entrar</button>
-</form>
+  <h2>Acesso ao sistema</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    
+    <p>
+      <label for="username">Usuário:</label>
+      <input type="text" name="username" id="username" required>
+    </p>
+
+    <p>
+      <label for="password">Senha:</label>
+      <input type="password" name="password" id="password" required>
+    </p>
+
+    <button type="submit">Entrar</button>
+  </form>
+
+  <p>Ainda não tem uma conta? <a href="{% url 'cadastro' %}">Cadastre-se aqui</a>.</p>
 {% endblock %}

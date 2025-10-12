@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sgeaweb',  # aplicativo principal do sistema
+    'sgeaweb.apps.SgeawebConfig',  # aplicativo principal do sistema
 ]
 
 # Middlewares responsáveis por processar as requisições HTTP
