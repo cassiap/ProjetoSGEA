@@ -127,7 +127,21 @@ erDiagram
     INSCRICAO ||--|| CERTIFICADO : "certifica"
 
 ```
+### Legenda do Diagrama (Entidades e Cardinalidades)
+- **TipoEvento 1..N Evento** — um tipo classifica vários eventos.
+- **User 1..1 PerfilUsuario** — cada usuário tem exatamente um perfil.
+- **User 1..N Evento** — um usuário (organizador/professor) organiza vários eventos.
+- **Evento 1..N Inscricao** — um evento pode ter várias inscrições.
+- **User 1..N Inscricao** — um usuário pode se inscrever em vários eventos.
+- **Inscricao 1..1 Certificado** — cada inscrição possui no máximo um certificado.
 
+### Atributos-chave (resumo)
+- **TipoEvento**: `id (PK)`, `nome`, `descricao`, `data_criacao`, `data_atualizacao`  
+- **PerfilUsuario**: `id (PK)`, `user_id (FK→User.id)`, `telefone`, `instituicao`, `perfil`  
+- **Evento**: `id (PK)`, `TIPO_id (FK→TipoEvento.id)`, `titulo`, `descricao`, `data_inicio`, `data_fim`, `horario`, `local`, `vagas`, `organizador_id (FK→User.id)`, `criado_em`, `atualizado_em`  
+- **Inscricao**: `id (PK)`, `participante_id (FK→User.id)`, `evento_id (FK→Evento.id)`, `criado_em`  
+  - **Restrição**: `UNIQUE (participante_id, evento_id)`  
+- **Certificado**: `id (PK)`, `inscricao_id (FK UNIQUE→Inscricao.id)`, `emitido_em`, `codigo_validacao (UNIQUE)`
 
 ## 👩‍💻 Desenvolvido por
 
