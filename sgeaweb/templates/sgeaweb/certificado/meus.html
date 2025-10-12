@@ -1,0 +1,16 @@
+{% extends "sgeaweb/base.html" %}
+{% block content %}
+<h2>Meus certificados</h2>
+
+<ul>
+  {% for c in certificados %}
+    <li>
+      <strong>{{ c.inscricao.evento.titulo }}</strong> —
+      emitido em {{ c.emitido_em|date:"d/m/Y H:i" }} |
+      Código: <strong>{{ c.codigo_validacao }}</strong>
+    </li>
+  {% empty %}
+    <li>Você ainda não possui certificados emitidos.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

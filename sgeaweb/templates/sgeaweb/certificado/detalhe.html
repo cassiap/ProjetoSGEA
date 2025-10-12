@@ -1,0 +1,29 @@
+{% extends "sgeaweb/base.html" %}
+{% block content %}
+  <h2>Certificado</h2>
+
+  <div style="max-width:800px;border:1px solid #ddd;border-radius:10px;padding:24px;background:#fff;">
+    <p>
+      Certificamos que
+      <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+      participou do evento <strong>{{ inscricao.evento.titulo }}</strong>,
+      realizado em
+      <strong>
+        {{ inscricao.evento.data_inicio|date:"d" }} de {{ inscricao.evento.data_inicio|date:"F" }} de {{ inscricao.evento.data_inicio|date:"Y" }}
+      </strong>
+      {% if inscricao.evento.data_fim != inscricao.evento.data_inicio %}
+        a
+        <strong>
+          {{ inscricao.evento.data_fim|date:"d" }} de {{ inscricao.evento.data_fim|date:"F" }} de {{ inscricao.evento.data_fim|date:"Y" }}
+        </strong>
+      {% endif %}
+      , no local <strong>{{ inscricao.evento.local }}</strong>.
+    </p>
+
+    <p>Código de validação: <strong>{{ certificado.codigo_validacao }}</strong></p>
+
+    <p>
+      <a href="{% url 'certificado_pdf' inscricao.id %}" class="btn">Baixar PDF</a>
+    </p>
+  </div>
+{% endblock %}

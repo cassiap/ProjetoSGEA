@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Certificado</title>
+  <style>
+    @page { size: A4; margin: 2cm; }
+    body { font-family: DejaVu Sans, Arial, sans-serif; color: #222; }
+    .cert {
+      border: 4px double #444; border-radius: 12px; padding: 30px; text-align: center;
+    }
+    h1 { font-size: 28px; margin: 0 0 8px; letter-spacing: 1px; }
+    h2 { font-size: 18px; font-weight: normal; color: #666; margin: 0 0 28px; }
+    p { font-size: 14px; line-height: 1.6; }
+    .code { margin-top: 22px; font-size: 12px; color: #555; }
+    .footer { margin-top: 36px; font-size: 12px; color: #777; }
+    .strong { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="cert">
+    <h1>Certificado de Participação</h1>
+    <h2>Sistema de Gestão de Eventos Acadêmicos — SGEA</h2>
+
+    <p>Certificamos que <span class="strong">{{ aluno }}</span>
+      participou do evento <span class="strong">{{ evento.titulo }}</span>,
+      realizado em
+      <span class="strong">{{ evento.data_inicio|date:"d 'de' F 'de' Y" }}</span>
+      {% if evento.data_fim != evento.data_inicio %}
+        a <span class="strong">{{ evento.data_fim|date:"d 'de' F 'de' Y" }}</span>
+      {% endif %}
+      , no local <span class="strong">{{ evento.local }}</span>.
+    </p>
+
+    <p class="code">Código de validação: <span class="strong">{{ codigo }}</span></p>
+    <p class="footer">Emitido em {{ emitido_em|date:"d/m/Y H:i" }} — Documento sem assinatura manuscrita.</p>
+  </div>
+</body>
+</html>

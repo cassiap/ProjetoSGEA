@@ -1,16 +1,24 @@
-
 {% extends "sgeaweb/base.html" %}
-
 {% block content %}
-  <h2>Minhas inscrições</h2>
+<h2>Minhas inscrições</h2>
 
-  <ul>
-    {% for i in inscricoes %}
-      <li>
-        <strong>{{ i.evento.titulo }}</strong> — {{ i.evento.data_inicio }} a {{ i.evento.data_fim }}
-      </li>
-    {% empty %}
-      <li>Você ainda não possui nenhuma inscrição registrada.</li>
-    {% endfor %}
-  </ul>
+<ul class="lista-inscricoes">
+  {% for i in inscricoes %}
+    <li>
+      <strong>{{ i.evento.titulo }}</strong> —
+      {{ i.evento.data_inicio|date:"d" }} de {{ i.evento.data_inicio|date:"F" }} de {{ i.evento.data_inicio|date:"Y" }}
+      {% if i.evento.data_fim != i.evento.data_inicio %}
+        a {{ i.evento.data_fim|date:"d" }} de {{ i.evento.data_fim|date:"F" }} de {{ i.evento.data_fim|date:"Y" }}
+      {% endif %}
+
+      {% if i.certificado %}
+        — <a href="{% url 'certificado_detalhe' i.id %}">Ver certificado</a>
+      {% else %}
+        — <em>Certificado pendente</em>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>Você ainda não tem inscrições.</li>
+  {% endfor %}
+</ul>
 {% endblock %}

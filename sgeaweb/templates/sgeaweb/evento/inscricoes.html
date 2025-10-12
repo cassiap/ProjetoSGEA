@@ -1,0 +1,21 @@
+{% extends "sgeaweb/base.html" %}
+{% block content %}
+<h2>Inscritos — {{ evento.titulo }}</h2>
+
+<ul>
+  {% for insc in inscritos %}
+    <li>
+      {{ insc.participante.get_full_name|default:insc.participante.username }}
+      {% if insc.certificado %}
+        — Certificado: <code>{{ insc.certificado.codigo_validacao }}</code>
+      {% else %}
+        — <a href="{% url 'emitir_certificado' insc.id %}">Emitir certificado</a>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>Nenhum inscrito ainda.</li>
+  {% endfor %}
+</ul>
+
+<p><a href="{% url 'evento_list' %}">← Voltar para meus eventos</a></p>
+{% endblock %}
