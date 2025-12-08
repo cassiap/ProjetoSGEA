@@ -14,7 +14,7 @@ Projeto acadêmico em **Django 5** com **Django REST Framework**, cobrindo:
 
 ---
 
-## 🧰 Tecnologias
+## Tecnologias
 
 - Python 3.11+ / 3.12
 - Django 5.x
@@ -26,7 +26,7 @@ Projeto acadêmico em **Django 5** com **Django REST Framework**, cobrindo:
 
 ---
 
-## ⚙️ Setup rápido
+## Setup rápido
 
 > Em Windows:
 ```bash
@@ -54,7 +54,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## 📦 Estrutura/Config
+## Estrutura/Config
 
 - `sgeaweb/models.py`
   - `PerfilUsuario` com `email_confirmado` e `confirma_token` (Item 7)
@@ -88,7 +88,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## 🔐 Perfis & Permissões (Item 9)
+## Perfis & Permissões (Item 9)
 
 - **Organizador**
   - CRUD de eventos
@@ -101,7 +101,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## ✅ Regras de Negócio (Item 6)
+## Regras de Negócio (Item 6)
 
 - `Evento.data_inicio` **não** pode ser no passado.
 - `Evento.data_fim` ≥ `data_inicio`.
@@ -112,7 +112,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## ✉️ Fluxo de E-mail (Item 7)
+## Fluxo de E-mail (Item 7)
 
 - Ao cadastrar, geramos `confirma_token` e enviamos e-mail (template `templates/email/confirmacao.html` com logo).
 - Link: `/confirmar/<token>/`
@@ -122,7 +122,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## 🖼️ Banner (Item 4)
+## Banner (Item 4)
 
 - Campo `Evento.banner` (ImageField)
 - Valida **tipo** (image/*), **tamanho** (≤ 3MB), **mínimo 400×300**
@@ -130,7 +130,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## 🧾 Auditoria (Item 10)
+## Auditoria (Item 10)
 
 - Registramos:
   - criação de usuário, **login/logout**, confirmação de e-mail
@@ -143,7 +143,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## 🪪 Certificados (Item 8)
+## Certificados (Item 8)
 
 - **Automáticos**: em *Minhas Inscrições*, se `evento.data_fim <= hoje` **e** `presenca_confirmada`, gera o certificado (código único).
 - **Manuais** (Organizador): página de inscritos do evento.
@@ -151,7 +151,7 @@ Acesse: http://127.0.0.1:8000/
 
 ---
 
-## 🔗 API REST (Item 3)
+## API REST (Item 3)
 
 ### Autenticação (Token)
 - Endpoint (com Browsable API):  
@@ -208,7 +208,7 @@ curl -X POST -H "Authorization: Token SEU_TOKEN" \
 
 ---
 
-## 🧪 Roteiro de Testes (resumo)
+## Roteiro de Testes (resumo)
 
 1. **Cadastro** → validações (e-mail único, senha forte, telefone) → ver **e-mail no console**, abrir `/confirmar/<token>/`.
 2. **Login**: bloqueia antes de confirmar; depois permite.
@@ -220,7 +220,7 @@ curl -X POST -H "Authorization: Token SEU_TOKEN" \
 
 ---
 
-## 🧭 Diagrama ER (atualizado)
+## Diagrama ER (atualizado)
 
 ```mermaid
 erDiagram
@@ -302,7 +302,7 @@ erDiagram
 
 ---
 
-## 📁 Requisitos/Dependências
+## Requisitos/Dependências
 
 Crie/atualize `requirements.txt` (se ainda não existir):
 ```
@@ -314,7 +314,7 @@ reportlab>=4.0
 
 ---
 
-## 👩‍💻 Autoria
+## Autoria
 
 **Cássia Gabriela Gonçalves da Paixão**  
 RA: **22252157**  
