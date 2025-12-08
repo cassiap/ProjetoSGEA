@@ -1,5 +1,3 @@
-
-
 {% extends "sgeaweb/base.html" %}
 
 {% block content %}
@@ -10,6 +8,6 @@
   <form method="post">
     {% csrf_token %}
     <button type="submit">Confirmar exclusão</button>
-    <a href="{% url 'evento_list' %}">Cancelar</a>
+    <a href="{% url 'evento_list' %}" class="btn" style="background:#6b7280;">Cancelar</a>
   </form>
 {% endblock %}

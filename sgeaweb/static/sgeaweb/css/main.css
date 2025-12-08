@@ -1,89 +1,135 @@
-/* Estilos básicos do SGEA — simples e legível para entrega acadêmica */
-
-/* Layout geral */
-:root {
-  --maxw: 960px;
-  --space: 1rem;
-  --radius: 10px;
-  --border: #e6e6e6;
+/* ===== Resetzinho e tokens ===== */
+:root{
+  --bg:#f7f8fa;
+  --panel:#fff;
+  --ink:#111827;
+  --muted:#6b7280;
+  --brand:#2563eb;
+  --brand-2:#3b82f6;
+  --border:#e5e7eb;
+  --radius:14px;
+  --shadow:0 2px 16px rgba(17,24,39,.06);
+  --container:1120px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--ink);
+  background:var(--bg);
 }
 
-* { box-sizing: border-box; }
-
-body {
-  font-family: system-ui, Arial, sans-serif;
-  background: #fafafa;
-  margin: 0;
-  color: #222;
+/* ===== Layout básico ===== */
+.container{
+  width:min(100%, var(--container));
+  margin-inline:auto;
+  padding:24px 20px;
+}
+.footer{
+  width:min(100%, var(--container));
+  margin:24px auto 40px;
+  padding:14px 20px;
+  color:var(--muted);
+  border-top:1px solid var(--border);
 }
 
-header, main {
-  width: min(100%, var(--maxw));
-  margin: 0 auto;
-  padding: var(--space) calc(var(--space) * 1.5);
+/* ===== Topbar / header ===== */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 8px rgba(17,24,39,.04);
+}
+.topbar .wrap{
+  width:min(100%, var(--container));
+  margin-inline:auto;
+  padding:10px 16px;
+  display:flex; align-items:center; gap:18px;
+}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none}
+.brand .logo{
+  display:block;
+  height:28px; width:auto; /* mantém proporção e não “estoura” */
+}
+/* tira qualquer texto colado no logo */
+.brand .brand-text{display:none}
+
+.menu{margin-left:auto; display:flex; gap:18px; align-items:center}
+.menu a{
+  color:#111827; text-decoration:none; padding:8px 10px; border-radius:8px;
+}
+.menu a:hover{background:#f3f4f6}
+
+/* ===== Mensagens (Django) ===== */
+.messages{width:min(100%, var(--container)); margin:16px auto 0}
+.msg{
+  margin:0 20px 10px; padding:12px 14px;
+  background:#eef3ff; border:1px solid #d9e3ff; border-radius:10px;
 }
 
-/* Cabeçalho e navegação */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space);
-  border-bottom: 1px solid var(--border);
-  background: #fff;
+/* ===== Tipografia ===== */
+h1,h2{margin:0 0 14px}
+h1{font-size:28px; letter-spacing:.2px}
+h2{font-size:22px}
+
+/* ===== Botões ===== */
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--brand); color:#fff; text-decoration:none;
+  border:0; border-radius:999px; padding:10px 16px; cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.btn:hover{background:var(--brand-2)}
+.btn-outline{
+  background:#eef2ff; color:#1f3aca;
 }
 
-h1 { margin: 0; font-size: 1.8rem; letter-spacing: .5px; }
-
-nav a {
-  margin-left: 1rem;
-  text-decoration: none;
-  color: #333;
-}
-nav a:hover { text-decoration: underline; }
-
-/* Conteúdo */
-h2 { font-size: 1.6rem; margin-top: 1.5rem; }
-
-/* Listas */
-ul { padding-left: 1.2rem; }
-li + li { margin-top: .4rem; }
-
-/* Formulários */
-form p { margin: .6rem 0; }
-label { display: inline-block; min-width: 120px; }
-input, select, textarea {
-  width: min(420px, 100%);
-  padding: .55rem .6rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: #fff;
-}
-textarea { resize: vertical; }
-
-/* Botões */
-button, .btn {
-  border: 0;
-  border-radius: 999px;
-  padding: .6rem 1rem;
-  background: #2f6fed;
-  color: white;
-  cursor: pointer;
-}
-button:hover, .btn:hover { filter: brightness(1.05); }
-a.btn-link {
-  display: inline-block;
-  padding: .4rem .7rem;
-  border-radius: 999px;
-  background: #f2f4ff;
-  text-decoration: none;
+/* ===== Lista de eventos / cards ===== */
+.event-list{list-style:none; margin:0; padding:0; display:grid; gap:18px}
+.card{
+  background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); overflow:hidden;
 }
 
-/* Mensagens do Django */
-.msg {
-  background: #eef3ff;
-  border: 1px solid #d9e3ff;
-  padding: .6rem .8rem;
-  border-radius: var(--radius);
-  margin: .6rem 0 0;
+/* banner responsivo com corte suave */
+.banner{
+  position:relative; width:100%;
+  aspect-ratio: 21 / 9;        /* controla a altura do banner */
+  background:#eef3ff;
 }
+.banner img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.banner .placeholder{
+  position:absolute; inset:0; display:grid; place-items:center;
+  color:#7b86a4; font-weight:500;
+}
+
+/* conteúdo do card */
+.card-body{padding:16px 18px}
+.card-title{font-weight:700; font-size:18px; margin:0 0 6px}
+.card-sub{color:var(--muted); font-size:14px; margin-bottom:12px}
+.card-actions{display:flex; gap:12px}
+
+/* ===== Página de detalhes ===== */
+.event-detail{display:grid; gap:18px}
+.detail-banner{border-radius:var(--radius); overflow:hidden; border:1px solid var(--border)}
+.detail-banner .banner{aspect-ratio: 16 / 6;} /* um pouco mais alto no detalhe */
+
+.detail-grid{
+  display:grid; gap:10px;
+  grid-template-columns: 1fr;
+}
+@media (min-width:900px){
+  .detail-grid{grid-template-columns: 3fr 2fr}
+}
+
+.dl{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px}
+.dl dt{font-weight:600}
+.dl dd{margin:2px 0 10px}
+
+/* ===== “Minhas inscrições” e “Meus eventos” ===== */
+.lista-inscricoes{list-style:disc; padding-left:24px}
+.list-slim{list-style:disc; padding-left:18px}
+.list-slim a{color:#1f3aca}

@@ -1,13 +1,19 @@
-
 {% extends "sgeaweb/base.html" %}
 
 {% block content %}
-  <h2>Certificado emitido com sucesso</h2>
+<h2>Certificado emitido com sucesso</h2>
 
-  <p>
-    Código de validação:
-    <strong>{{ certificado.codigo_validacao }}</strong>
-  </p>
+<p class="hint">
+  Código de validação: <strong>{{ certificado.codigo_validacao }}</strong>
+</p>
 
+<div class="panel">
   <p>Guarde este código para futuras verificações de autenticidade.</p>
+  <div class="card-actions">
+    <a class="btn btn-light" href="{% url 'certificado_detalhe' certificado.inscricao_id %}">🔎 Ver certificado</a>
+    <a class="btn btn-primary" href="{% url 'certificado_pdf' certificado.inscricao_id %}">⬇️ Baixar PDF</a>
+  </div>
+</div>
+
+<p><a class="btn btn-light" href="javascript:history.back()">Voltar</a></p>
 {% endblock %}

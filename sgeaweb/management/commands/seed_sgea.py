@@ -48,6 +48,9 @@ class Command(BaseCommand):
             perfil_tipo = dados["perfil"]
             instituicao = dados["instituicao"]
 
+            # ============================
+            #   CRIAÇÃO OU ATUALIZAÇÃO DO USER
+            # ============================
             user, created = User.objects.get_or_create(
                 username=username,
                 defaults={
@@ -57,6 +60,7 @@ class Command(BaseCommand):
                 },
             )
 
+            # Se for criado agora, define a senha
             if created:
                 user.set_password(password)
                 user.save()
@@ -68,12 +72,17 @@ class Command(BaseCommand):
                     self.style.WARNING(f"Usuário já existia: {username} (senha não alterada).")
                 )
 
+            # ============================
+            #   CRIA OU ATUALIZA PERFIL
+            # ============================
             perfil, perfil_created = PerfilUsuario.objects.get_or_create(
                 user=user,
                 defaults={
                     "telefone": "(61) 99999-9999",
                     "instituicao": instituicao,
                     "perfil": perfil_tipo,
+                    "email_confirmado": True,   # ✔️ marca como confirmado
+                    "confirma_token": None,     # ✔️ sem token necessário
                 },
             )
 
@@ -82,17 +91,29 @@ class Command(BaseCommand):
                     self.style.SUCCESS(f"Perfil criado para {username}: {perfil_tipo}")
                 )
             else:
+                # Atualiza caso esteja diferente ou sem confirmação
+                mudou = False
+
                 if perfil.perfil != perfil_tipo:
                     perfil.perfil = perfil_tipo
+                    mudou = True
+
+                if not perfil.email_confirmado:
+                    perfil.email_confirmado = True
+                    mudou = True
+
+                if perfil.confirma_token is not None:
+                    perfil.confirma_token = None
+                    mudou = True
+
+                if mudou:
                     perfil.save()
                     self.stdout.write(
-                        self.style.SUCCESS(
-                            f"Perfil de {username} atualizado para: {perfil_tipo}"
-                        )
+                        self.style.SUCCESS(f"Perfil de {username} atualizado e confirmado.")
                     )
                 else:
                     self.stdout.write(
-                        self.style.WARNING(f"Perfil de {username} já era: {perfil_tipo}")
+                        self.style.WARNING(f"Perfil de {username} já estava correto.")
                     )
 
         self.stdout.write(self.style.SUCCESS("Seeding de usuários do SGEA concluído."))

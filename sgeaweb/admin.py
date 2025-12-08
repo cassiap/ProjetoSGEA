@@ -1,37 +1,38 @@
-# Configuração do painel administrativo do Django para o SGEA
-
+# sgeaweb/admin.py
 from django.contrib import admin
-from .models import TipoEvento, PerfilUsuario, Evento, Inscricao, Certificado
+from .models import TipoEvento, PerfilUsuario, Evento, Inscricao, Certificado, Auditoria
 
 @admin.register(TipoEvento)
 class TipoEventoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "data_criacao", "data_atualizacao")
+    list_display = ("id", "nome", "data_criacao", "data_atualizacao")
     search_fields = ("nome",)
-    ordering = ("nome",)
 
 @admin.register(PerfilUsuario)
 class PerfilUsuarioAdmin(admin.ModelAdmin):
-    list_display = ("user", "perfil", "instituicao", "telefone")
-    list_filter = ("perfil",)
-    search_fields = ("user__username", "user__first_name", "user__last_name", "instituicao")
-    raw_id_fields = ("user",)  # evita dropdown muito grande
+    list_display = ("user", "perfil", "instituicao", "email_confirmado")
+    list_filter = ("perfil", "email_confirmado")
+    search_fields = ("user__username", "user__email", "instituicao")
 
 @admin.register(Evento)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "TIPO", "data_inicio", "data_fim", "local", "vagas", "organizador")
-    list_filter = ("TIPO", "data_inicio")
-    search_fields = ("titulo", "local", "organizador__username")
-    date_hierarchy = "data_inicio"
-    raw_id_fields = ("organizador",)
+    list_display = ("id", "titulo", "TIPO", "data_inicio", "data_fim", "organizador", "responsavel")
+    list_filter = ("TIPO", "data_inicio", "data_fim")
+    search_fields = ("titulo", "local")
+    autocomplete_fields = ("organizador", "responsavel")
 
 @admin.register(Inscricao)
 class InscricaoAdmin(admin.ModelAdmin):
-    list_display = ("participante", "evento", "criado_em")
-    list_filter = ("evento",)
+    list_display = ("id", "participante", "evento", "presenca_confirmada", "criado_em")
+    list_filter = ("presenca_confirmada", "criado_em")
     search_fields = ("participante__username", "evento__titulo")
-    raw_id_fields = ("participante", "evento")
 
 @admin.register(Certificado)
 class CertificadoAdmin(admin.ModelAdmin):
     list_display = ("inscricao", "codigo_validacao", "emitido_em")
-    search_fields = ("codigo_validacao", "inscricao__participante__username", "inscricao__evento__titulo")
+    search_fields = ("codigo_validacao", "inscricao__participante__username")
+
+@admin.register(Auditoria)
+class AuditoriaAdmin(admin.ModelAdmin):
+    list_display = ("id", "usuario", "acao", "data_hora")
+    list_filter = ("acao", "data_hora")
+    search_fields = ("usuario__username", "acao", "descricao")

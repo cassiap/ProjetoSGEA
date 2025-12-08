@@ -22,17 +22,21 @@ class TipoEvento(models.Model):
 
 
 class PerfilUsuario(models.Model):
-    """Dados complementares do usuário do Django (perfil e instituição)."""
+    """Dados complementares do usuário (perfil, instituição e confirmação de email)."""
     PERFIS = (
         ("ALUNO", "Aluno"),
         ("PROFESSOR", "Professor"),
         ("ORGANIZADOR", "Organizador"),
     )
-    # related_name="perfil" permite acessar como user.perfil no projeto
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="perfil")
     telefone = models.CharField(max_length=20, blank=True)
     instituicao = models.CharField(max_length=150)
     perfil = models.CharField(max_length=12, choices=PERFIS)
+
+    # Item 7 — confirmação de e-mail
+    email_confirmado = models.BooleanField(default=False)
+    confirma_token = models.CharField(max_length=64, blank=True, null=True)
 
     class Meta:
         db_table = "perfil_usuario"
@@ -40,7 +44,6 @@ class PerfilUsuario(models.Model):
         verbose_name_plural = "Perfis de Usuário"
 
     def __str__(self):
-        # Usa o nome completo se existir; senão, o username
         return f"{self.user.get_full_name() or self.user.username} - {self.perfil}"
 
 
@@ -54,7 +57,29 @@ class Evento(models.Model):
     horario = models.CharField(max_length=50)
     local = models.CharField(max_length=200)
     vagas = models.PositiveIntegerField()
-    organizador = models.ForeignKey(User, on_delete=models.PROTECT, related_name="eventos")
+
+    organizador = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name="eventos"
+    )
+
+    responsavel = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name="eventos_responsavel",
+        limit_choices_to={"perfil__perfil": "PROFESSOR"},
+        verbose_name="Professor responsável"
+    )
+
+    # Item 4 — banner do evento com validação e exibição
+    banner = models.ImageField(
+        upload_to="banners/",
+        blank=True,
+        null=True,
+        verbose_name="Banner do Evento"
+    )
+
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 
@@ -69,14 +94,16 @@ class Evento(models.Model):
 
 
 class Inscricao(models.Model):
-    """Liga um participante a um evento (1 usuário pode se inscrever 1x por evento)."""
     participante = models.ForeignKey(User, on_delete=models.CASCADE)
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
     criado_em = models.DateTimeField(auto_now_add=True)
 
+    # Item 8 — campo obrigatório para emissão automática de certificados
+    presenca_confirmada = models.BooleanField(default=True)
+
     class Meta:
         db_table = "inscricao"
-        unique_together = ("participante", "evento")  # evita duplicidade
+        unique_together = ("participante", "evento")
         verbose_name = "Inscrição"
         verbose_name_plural = "Inscrições"
 
@@ -85,7 +112,6 @@ class Inscricao(models.Model):
 
 
 class Certificado(models.Model):
-    """Certificado emitido para uma inscrição (1:1), com código de validação."""
     inscricao = models.OneToOneField(Inscricao, on_delete=models.CASCADE)
     emitido_em = models.DateTimeField(auto_now_add=True)
     codigo_validacao = models.CharField(max_length=64, unique=True)
@@ -97,3 +123,20 @@ class Certificado(models.Model):
 
     def __str__(self):
         return f"Certificado {self.codigo_validacao}"
+
+
+class Auditoria(models.Model):
+    """Item 10 — Logs de ações sensíveis realizadas no sistema."""
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    acao = models.CharField(max_length=200)
+    descricao = models.TextField()
+    data_hora = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "auditoria"
+        ordering = ["-data_hora"]
+        verbose_name = "Registro de Auditoria"
+        verbose_name_plural = "Registros de Auditoria"
+
+    def __str__(self):
+        return f"{self.usuario} - {self.acao} - {self.data_hora.strftime('%d/%m/%Y %H:%M')}"

@@ -1,24 +1,40 @@
 {% extends "sgeaweb/base.html" %}
+{% load static %}
+
 {% block content %}
 <h2>Minhas inscrições</h2>
 
-<ul class="lista-inscricoes">
+<ul class="card-list">
   {% for i in inscricoes %}
-    <li>
-      <strong>{{ i.evento.titulo }}</strong> —
-      {{ i.evento.data_inicio|date:"d" }} de {{ i.evento.data_inicio|date:"F" }} de {{ i.evento.data_inicio|date:"Y" }}
-      {% if i.evento.data_fim != i.evento.data_inicio %}
-        a {{ i.evento.data_fim|date:"d" }} de {{ i.evento.data_fim|date:"F" }} de {{ i.evento.data_fim|date:"Y" }}
-      {% endif %}
+    <li class="card">
+      <div class="card-body">
+        <div class="card-main">
+          <strong class="card-title">{{ i.evento.titulo }}</strong>
+          <div class="card-meta">
+            <span>
+              {{ i.evento.data_inicio|date:"d" }} de {{ i.evento.data_inicio|date:"F" }} de {{ i.evento.data_inicio|date:"Y" }}
+              {% if i.evento.data_fim != i.evento.data_inicio %}
+                &rarr; {{ i.evento.data_fim|date:"d" }} de {{ i.evento.data_fim|date:"F" }} de {{ i.evento.data_fim|date:"Y" }}
+              {% endif %}
+            </span>
+            <span>• {{ i.evento.local }}</span>
+          </div>
+        </div>
 
-      {% if i.certificado %}
-        — <a href="{% url 'certificado_detalhe' i.id %}">Ver certificado</a>
-      {% else %}
-        — <em>Certificado pendente</em>
-      {% endif %}
+        <div class="card-actions">
+          {% if i.certificado %}
+            <a class="btn btn-secondary" href="{% url 'certificado_detalhe' i.id %}">Ver certificado</a>
+          {% else %}
+            <span class="badge badge-muted">Certificado pendente</span>
+          {% endif %}
+        </div>
+      </div>
     </li>
   {% empty %}
-    <li>Você ainda não tem inscrições.</li>
+    <li class="empty-state">
+      <p>Você ainda não tem inscrições.</p>
+      <a class="btn" href="{% url 'home' %}">Explorar eventos</a>
+    </li>
   {% endfor %}
 </ul>
 {% endblock %}

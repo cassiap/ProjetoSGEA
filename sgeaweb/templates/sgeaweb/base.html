@@ -4,41 +4,60 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SGEA</title>
+  <title>SGEA — Gestão de Eventos Acadêmicos</title>
 
-  <link rel="stylesheet" href="{% static 'sgeaweb/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'sgeaweb/css/main.css' %}?v=2025-12-07-02">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
 </head>
 <body>
-  <header>
-    <h1>SGEA</h1>
-    <nav>
-      <a href="{% url 'home' %}">Home</a>
-      {% if user.is_authenticated %}
-        <a href="{% url 'minhas_inscricoes' %}">Minhas inscrições</a>
-        {% if user.perfil.perfil == 'ORGANIZADOR' %}
-          <a href="{% url 'evento_list' %}" class="btn-link">Meus eventos</a>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="{% url 'home' %}" aria-label="Página inicial SGEA">
+        <img class="logo"
+             src="{% static 'sgeaweb/img/logo-sgea.svg' %}"
+             onerror="this.onerror=null;this.src='{% static 'sgeaweb/img/logo-sgea.png' %}'"
+             alt="SGEA">
+        <span class="brand-text">SGEA</span>
+      </a>
+
+      <nav class="menu" aria-label="Navegação principal">
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+          {% with p=user.perfil.perfil %}
+            {% if p == 'ALUNO' or p == 'PROFESSOR' %}
+              <a href="{% url 'minhas_inscricoes' %}">Minhas inscrições</a>
+            {% endif %}
+            {% if p == 'ORGANIZADOR' %}
+              <a href="{% url 'evento_list' %}">Gerenciar eventos</a>
+              <a href="{% url 'evento_create' %}">Criar evento</a>
+            {% endif %}
+          {% endwith %}
+          <a href="{% url 'logout' %}">Sair</a>
+        {% else %}
+          <a href="{% url 'login' %}">Entrar</a>
+          <a href="{% url 'cadastro' %}">Cadastro</a>
         {% endif %}
-        <a href="{% url 'logout' %}">Sair</a>
-      {% else %}
-        <a href="{% url 'login' %}">Entrar</a>
-        <a href="{% url 'cadastro' %}">Cadastro</a>
-      {% endif %}
-    </nav>
+      </nav>
+    </div>
   </header>
 
-  {% for message in messages %}
-    <p class="msg">{{ message }}</p>
-  {% endfor %}
+  {% if messages %}
+    <div class="messages" role="status" aria-live="polite">
+      {% for message in messages %}<p class="msg">{{ message }}</p>{% endfor %}
+    </div>
+  {% endif %}
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+  <main class="container">{% block content %}{% endblock %}</main>
+
+  <footer class="footer">
+    <small>© SGEA — Sistema de Gestão de Eventos Acadêmicos</small>
+    <small class="muted">Projeto acadêmico.</small>
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
-  <script src="{% static 'sgeaweb/js/forms.js' %}"></script>
+  <script src="{% static 'sgeaweb/js/forms.js' %}?v=2025-12-07-02"></script>
 </body>
 </html>

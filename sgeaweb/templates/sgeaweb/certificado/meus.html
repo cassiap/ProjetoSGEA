@@ -7,7 +7,9 @@
     <li>
       <strong>{{ c.inscricao.evento.titulo }}</strong> —
       emitido em {{ c.emitido_em|date:"d/m/Y H:i" }} |
-      Código: <strong>{{ c.codigo_validacao }}</strong>
+      Código: <strong>{{ c.codigo_validacao }}</strong> |
+      <a href="{% url 'certificado_detalhe' c.inscricao_id %}">ver</a> ·
+      <a href="{% url 'certificado_pdf' c.inscricao_id %}">PDF</a>
     </li>
   {% empty %}
     <li>Você ainda não possui certificados emitidos.</li>

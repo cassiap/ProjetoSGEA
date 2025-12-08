@@ -1,0 +1,28 @@
+{% extends "sgeaweb/base.html" %}
+{% block content %}
+  <h2>Registros de Auditoria</h2>
+
+  <form method="get" style="margin:12px 0;">
+    <label>Dia (YYYY-MM-DD):
+      <input type="date" name="dia" value="{{ request.GET.dia }}">
+    </label>
+    <label>Usuário:
+      <input type="text" name="usuario" value="{{ request.GET.usuario }}">
+    </label>
+    <button type="submit">Filtrar</button>
+    <a class="btn-link" href="{% url 'auditoria_list' %}">Limpar</a>
+  </form>
+
+  <ul>
+    {% for r in registros %}
+      <li>
+        <strong>{{ r.data_hora|date:"d/m/Y H:i" }}</strong> —
+        <em>{{ r.usuario|default:"(sistema)" }}</em> —
+        <code>{{ r.acao }}</code> —
+        {{ r.descricao }}
+      </li>
+    {% empty %}
+      <li>Nenhum registro encontrado.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

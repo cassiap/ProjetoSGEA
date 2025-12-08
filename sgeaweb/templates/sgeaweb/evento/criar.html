@@ -3,10 +3,42 @@
 {% block content %}
   <h2>Cadastrar novo evento</h2>
 
+  {% if form.non_field_errors %}
+    <div class="msg" style="background:#ffecec; border:1px solid #ffc9c9;">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    
+
     <button type="submit">Salvar evento</button>
   </form>
+
+  <!-- Incluí aqui para não depender do base.html por enquanto -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <!-- timepicker addon (opcional, se quiser o grid de tempo) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css"/>
+
+  <script>
+    // Ativa os pickers de data/hora — seus widgets já colocam as classes .datepicker / .timepicker
+    $(function(){
+      $(".datepicker").datepicker({
+        dateFormat: "yy-mm-dd",
+        changeMonth: true,
+        changeYear: true
+      });
+      if ($.fn.timepicker) {
+        $(".timepicker").timepicker({
+          timeFormat: "HH:mm",
+          hourGrid: 4,
+          minuteGrid: 10
+        });
+      }
+    });
+  </script>
 {% endblock %}

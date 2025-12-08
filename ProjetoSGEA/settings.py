@@ -1,20 +1,16 @@
-# Arquivo de configurações principais do projeto Django (SGEA)
-# Ajustado para ambiente de desenvolvimento local
+# ProjetoSGEA/settings.py — COMPLETO
 
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Chave usada pelo Django para criptografia interna (sem necessidade de troca em ambiente de teste)
 SECRET_KEY = 'dev-not-secret'
-
-# Modo de depuração ativado (apenas durante o desenvolvimento)
 DEBUG = True
 
-# Hosts permitidos para execução local
+# Execução local
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
-# Aplicações ativas no projeto
+# Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -22,10 +18,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sgeaweb.apps.SgeawebConfig',  # aplicativo principal do sistema
+
+    # Django REST Framework
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    # App principal
+    'sgeaweb.apps.SgeawebConfig',
 ]
 
-# Middlewares responsáveis por processar as requisições HTTP
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -36,14 +38,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Arquivo principal de rotas do projeto
 ROOT_URLCONF = 'ProjetoSGEA.urls'
 
-# Configurações de templates HTML
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # os templates estão organizados dentro do app "sgeaweb"
+        # Mantém os templates carregados via app (sgeaweb/templates/…)
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -56,10 +58,9 @@ TEMPLATES = [
     },
 ]
 
-# Configuração da aplicação WSGI (padrão do Django)
 WSGI_APPLICATION = 'ProjetoSGEA.wsgi.application'
 
-# Banco de dados SQLite (ideal para desenvolvimento)
+# Banco (SQLite p/ dev)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -67,22 +68,57 @@ DATABASES = {
     }
 }
 
-# Validação de senha desativada para facilitar testes locais
-AUTH_PASSWORD_VALIDATORS = []
+# Validação de senha (regras mínimas; regras “fortes” extras já estão no forms)
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 8},
+    },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+]
 
-# Idioma e fuso horário do projeto
+# DRF: auth + throttling (nomes de escopo batem com os que usaremos nas views)
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "eventos_list": "20/day",
+        "inscricoes_create": "50/day",
+    },
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
+}
+
+# I18N / TZ
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# Configuração dos arquivos estáticos (CSS, JS, imagens)
-STATIC_URL = 'static/'
+# Estáticos (front)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [ BASE_DIR / 'sgeaweb' / 'static']  # usando app/static
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Chave padrão para campos automáticos do Django
+# Mídia (banners de eventos)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Rotas padrão de autenticação
+# Auth redirects
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+# E-mail (console p/ dev) — aparece formatado no terminal
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "naoresponda@sgea.com"

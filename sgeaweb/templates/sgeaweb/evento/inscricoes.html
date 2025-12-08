@@ -1,21 +1,36 @@
 {% extends "sgeaweb/base.html" %}
 {% block content %}
-<h2>Inscritos — {{ evento.titulo }}</h2>
 
-<ul>
-  {% for insc in inscritos %}
-    <li>
-      {{ insc.participante.get_full_name|default:insc.participante.username }}
-      {% if insc.certificado %}
-        — Certificado: <code>{{ insc.certificado.codigo_validacao }}</code>
-      {% else %}
-        — <a href="{% url 'emitir_certificado' insc.id %}">Emitir certificado</a>
-      {% endif %}
-    </li>
-  {% empty %}
-    <li>Nenhum inscrito ainda.</li>
-  {% endfor %}
-</ul>
+<section class="card card-lg">
+  <header class="card-header">
+    <h2 class="title">Inscritos — {{ evento.titulo }}</h2>
+    <p class="muted">{{ evento.data_inicio|date:"d/m/Y" }}{% if evento.data_fim != evento.data_inicio %} → {{ evento.data_fim|date:"d/m/Y" }}{% endif %} • {{ evento.local }}</p>
+  </header>
 
-<p><a href="{% url 'evento_list' %}">← Voltar para meus eventos</a></p>
+  <ul class="clean-list">
+    {% for insc in inscritos %}
+      <li class="row-between">
+        <div>
+          {{ insc.participante.get_full_name|default:insc.participante.username }}
+          {% if insc.presenca_confirmada %}<span class="badge success">presença</span>{% endif %}
+        </div>
+
+        <div class="row-gap">
+          {% if insc.certificado %}
+            <span class="badge">Código: {{ insc.certificado.codigo_validacao }}</span>
+          {% else %}
+            <a class="btn btn-outline" href="{% url 'emitir_certificado' insc.id %}">Emitir certificado</a>
+          {% endif %}
+        </div>
+      </li>
+    {% empty %}
+      <li class="muted">Nenhum inscrito ainda.</li>
+    {% endfor %}
+  </ul>
+
+  <div class="actions">
+    <a class="btn btn-outline" href="{% url 'evento_list' %}">← Voltar</a>
+  </div>
+</section>
+
 {% endblock %}

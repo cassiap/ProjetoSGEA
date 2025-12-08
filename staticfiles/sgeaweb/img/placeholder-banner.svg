@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+  <rect width="1200" height="420" fill="#f3f6ff" />
+  <rect x="24" y="24" width="1152" height="372" rx="16" ry="16" fill="#e6edff" stroke="#cfdcff"/>
+  <text x="600" y="220" text-anchor="middle" font-size="28" fill="#7a8bbd" font-family="Arial, sans-serif">
+    Sem banner cadastrado
+  </text>
+</svg>

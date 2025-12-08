@@ -1,14 +1,14 @@
-# Arquivo responsável por mapear as rotas principais do projeto Django (SGEA)
-# Aqui foi feita a ligação entre o sistema administrativo e as rotas do aplicativo principal (sgeaweb)
-
+# ProjetoSGEA/urls.py
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    # Rota para acessar o painel administrativo do Django
-    path('admin/', admin.site.urls),
-
-    # Inclui todas as rotas definidas dentro do aplicativo "sgeaweb"
-    # Assim, qualquer URL começando por "/" será redirecionada para as rotas do app
-    path('', include('sgeaweb.urls')),
+    path("admin/", admin.site.urls),
+    path("", include("sgeaweb.urls")),
+    path("api/", include("sgeaweb.api.urls")),  # ← API REST
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

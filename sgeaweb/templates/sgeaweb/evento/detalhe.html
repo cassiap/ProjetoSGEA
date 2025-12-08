@@ -1,0 +1,43 @@
+{% extends "sgeaweb/base.html" %}
+{% block content %}
+<h1>{{ evento.titulo }}</h1>
+
+<div class="event-detail">
+  <figure class="detail-banner card">
+    <div class="banner">
+      {% if evento.banner %}
+        <img src="{{ evento.banner.url }}" alt="Banner do evento {{ evento.titulo }}">
+      {% else %}
+        <div class="placeholder">Sem banner cadastrado</div>
+      {% endif %}
+    </div>
+  </figure>
+
+  <div class="detail-grid">
+    <div class="dl">
+      <dt>Tipo</dt><dd>{{ evento.tipo }}</dd>
+      <dt>Professor responsável</dt><dd>{{ evento.professor_responsavel }}</dd>
+      <dt>Local</dt><dd>{{ evento.local }}</dd>
+      <dt>Período</dt>
+      <dd>
+        {{ evento.data_inicio|date:"d/m/Y" }}
+        {% if evento.data_fim != evento.data_inicio %} → {{ evento.data_fim|date:"d/m/Y" }}{% endif %}
+      </dd>
+      <dt>Horário</dt><dd>{{ evento.horario }}</dd>
+      <dt>Vagas</dt><dd>{{ evento.vagas }}</dd>
+    </div>
+
+    <div class="dl">
+      <dt>Descrição</dt>
+      <dd>{{ evento.descricao|linebreaks }}</dd>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
+        {% if user.is_authenticated and user.perfil.perfil != "ORGANIZADOR" %}
+          <a class="btn" href="{% url 'inscrever' evento.id %}">Inscrever-se</a>
+        {% endif %}
+        <a class="btn btn-outline" href="javascript:history.back()">Voltar</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,14 +1,15 @@
-
 {% extends "sgeaweb/base.html" %}
 
 {% block content %}
   <h2>Editar informações do evento</h2>
 
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <button type="submit">Salvar alterações</button>
-    <a href="{% url 'evento_list' %}">Cancelar</a>
+    <div class="card-actions">
+      <button type="submit" class="btn btn-primary">Salvar alterações</button>
+      <a href="{% url 'evento_list' %}" class="btn btn-light">Cancelar</a>
+    </div>
   </form>
 {% endblock %}

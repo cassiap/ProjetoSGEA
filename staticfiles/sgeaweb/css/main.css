@@ -1,0 +1,72 @@
+/* ===== Cards reutilizáveis ===== */
+.card-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 2rem;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e6eaf2;
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.02);
+}
+
+.card-body {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card-main { min-width: 260px; }
+.card-title {
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  color: #0f172a;
+}
+.card-title:hover { text-decoration: underline; }
+
+.card-meta {
+  margin-top: 2px;
+  color: #5b6472;
+  font-size: 14px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.link-action { color: #1f5eff; text-decoration: none; font-weight: 600; }
+.link-action:hover { text-decoration: underline; }
+.sep { color: #c3c7d0; }
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+}
+.badge-muted { background: #f0f4ff; color: #55607a; }
+
+.empty-state {
+  text-align: center;
+  padding: 24px 16px;
+  border: 1px dashed #d8dce6;
+  border-radius: 12px;
+  color: #55607a;
+  background: #fafbff;
+}
+.empty-state .btn { margin-top: 10px; }

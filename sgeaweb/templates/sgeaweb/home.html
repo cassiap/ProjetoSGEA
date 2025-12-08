@@ -1,18 +1,42 @@
 {% extends "sgeaweb/base.html" %}
 {% block content %}
-  <h2>Eventos abertos</h2>
-  <ul>
-    {% for e in eventos %}
-      <li>
-        <strong>{{ e.titulo }}</strong> —
-        {{ e.data_inicio|date:"d/m/Y" }} a {{ e.data_fim|date:"d/m/Y" }} — {{ e.local }}
-        <a href="{% url 'inscrever' e.id %}">Inscrever</a>
-      </li>
-    {% empty %}
-      <li>Nenhum evento disponível.</li>
-      {% if user.is_authenticated and user.perfil.perfil == 'ORGANIZADOR' %}
-        <p><a class="btn" href="{% url 'evento_create' %}">+ Criar primeiro evento</a></p>
-      {% endif %}
-    {% endfor %}
-  </ul>
+<h1>Eventos Abertos</h1>
+
+<ul class="event-list">
+  {% for e in eventos %}
+    <li class="card">
+      <figure class="banner">
+        {% if e.banner %}
+          <img src="{{ e.banner.url }}" alt="Banner do evento {{ e.titulo }}">
+        {% else %}
+          <div class="placeholder">Sem banner cadastrado</div>
+        {% endif %}
+      </figure>
+
+      <div class="card-body">
+        <div class="card-title">{{ e.titulo }}</div>
+        <div class="card-sub">
+          {{ e.data_inicio|date:"d/m/Y" }}
+          {% if e.data_fim != e.data_inicio %} → {{ e.data_fim|date:"d/m/Y" }}{% endif %}
+          • {{ e.local }}
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-outline" href="{% url 'evento_detalhe' e.id %}">Ver detalhes</a>
+
+          {% if user.is_authenticated %}
+            {% if user.perfil.perfil == "ORGANIZADOR" %}
+              <span class="card-sub">(Organizador não pode se inscrever)</span>
+            {% else %}
+              <a class="btn" href="{% url 'inscrever' e.id %}">Entrar para inscrever</a>
+            {% endif %}
+          {% else %}
+            <a class="btn" href="{% url 'login' %}">Entrar para inscrever</a>
+          {% endif %}
+        </div>
+      </div>
+    </li>
+  {% empty %}
+    <li class="card"><div class="card-body">Nenhum evento disponível.</div></li>
+  {% endfor %}
+</ul>
 {% endblock %}
