@@ -1,11 +1,11 @@
-# Core
+# Núcleo do projeto
 Django==5.2.1
 djangorestframework==3.15.2
-# Token auth comes with DRF; no extra package needed
+# Autenticação por token já vem integrada ao DRF; não é necessário pacote adicional
 
-# Images & PDFs
+# Manipulação de imagens e geração de PDFs
 Pillow==10.4.0
 reportlab==4.2.2
 
-# Dev helpers (optional, comment out if not needed)
+# Ferramentas de desenvolvimento
 # django-cors-headers==4.4.0

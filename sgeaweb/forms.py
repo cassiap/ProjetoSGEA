@@ -1,5 +1,3 @@
-# sgeaweb/forms.py
-
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -11,9 +9,7 @@ import re
 from .models import PerfilUsuario, Evento, Inscricao
 
 
-# ======================
 # FORMULÁRIO DE CADASTRO
-# ======================
 class UserRegisterForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Digite uma senha"}),
@@ -72,9 +68,7 @@ class UserRegisterForm(forms.ModelForm):
         return cleaned
 
 
-# ==============================
 # FORMULÁRIO DE PERFIL DO USUÁRIO
-# ==============================
 class PerfilUsuarioForm(forms.ModelForm):
     class Meta:
         model = PerfilUsuario
@@ -104,9 +98,7 @@ class PerfilUsuarioForm(forms.ModelForm):
         return telefone
 
 
-# ======================
 # FORMULÁRIO DE EVENTO
-# ======================
 class EventoForm(forms.ModelForm):
     banner = forms.ImageField(required=False, label="Banner do evento")
 
@@ -194,9 +186,7 @@ class EventoForm(forms.ModelForm):
         return banner
 
 
-# ======================
 # FORMULÁRIO DE INSCRIÇÃO
-# ======================
 class InscricaoForm(forms.ModelForm):
     class Meta:
         model = Inscricao

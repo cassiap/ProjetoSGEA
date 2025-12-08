@@ -1,4 +1,3 @@
-# Arquivo responsável por expor a aplicação WSGI do projeto
 # O WSGI é a interface usada pelos servidores web para se comunicar com aplicações Django.
 
 import os

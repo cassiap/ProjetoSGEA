@@ -1,5 +1,3 @@
-# sgeaweb/views.py — SGEA
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -20,7 +18,7 @@ from .models import Evento, Inscricao, Certificado, PerfilUsuario, Auditoria
 from .forms import UserRegisterForm, PerfilUsuarioForm, EventoForm
 
 
-# ====== Auditoria ======
+#Auditoria
 def log_action(user, acao: str, descricao: str):
     try:
         Auditoria.objects.create(usuario=user if user.is_authenticated else None,
@@ -31,7 +29,7 @@ def log_action(user, acao: str, descricao: str):
         pass
 
 
-# ====== Envio de e-mail de confirmação ======
+#Envio de e-mail de confirmação
 def enviar_email_confirmacao(usuario, token):
     assunto = "Confirme seu cadastro no SGEA"
     remetente = "naoresponda@sgea.com"
@@ -44,13 +42,13 @@ def enviar_email_confirmacao(usuario, token):
     email.send()
 
 
-# ====== Home ======
+# Home
 def home(request):
     eventos = Evento.objects.all().order_by("data_inicio")
     return render(request, "sgeaweb/home.html", {"eventos": eventos})
 
 
-# ====== Autenticação ======
+#Autenticação
 def login_view(request):
     next_url = request.GET.get("next", request.POST.get("next", ""))
 
@@ -81,7 +79,7 @@ def logout_view(request):
     return redirect("home")
 
 
-# ====== Cadastro + confirmação de e-mail ======
+#Cadastro + confirmação de e-mail
 def cadastro_view(request):
     if request.method == "POST":
         uform = UserRegisterForm(request.POST)
@@ -121,7 +119,7 @@ def confirmar_email(request, token):
     return redirect("login")
 
 
-# ====== Permissão Organizador ======
+#Permissão Organizador
 def is_organizador(user: User) -> bool:
     try:
         return user.perfil.perfil == "ORGANIZADOR" and user.perfil.email_confirmado
@@ -129,7 +127,7 @@ def is_organizador(user: User) -> bool:
         return False
 
 
-# ====== Eventos (CRUD) ======
+#Eventos
 @user_passes_test(is_organizador)
 def evento_list(request):
     eventos = Evento.objects.filter(organizador=request.user).order_by("-data_inicio")
@@ -199,8 +197,7 @@ def evento_detalhe(request, pk):
     return render(request, "sgeaweb/evento/detalhe.html", {"evento": evento})
 
 
-# ====== Inscrições ======
-# views.py
+#  Inscrições
 @login_required
 def evento_inscricoes(request, pk):
     ev = get_object_or_404(Evento, pk=pk)
@@ -209,7 +206,7 @@ def evento_inscricoes(request, pk):
         return HttpResponseForbidden("Não autorizado.")
 
     inscritos = Inscricao.objects.filter(evento=ev).select_related("participante")
-    # 👇 trocado para 'inscricoes.html'
+    # trocado para 'inscricoes.html'
     return render(request, "sgeaweb/evento/inscricoes.html", {"evento": ev, "inscritos": inscritos})
 
 
@@ -243,14 +240,14 @@ def inscrever(request, pk_evento):
     return render(request, "sgeaweb/inscricao/inscrever.html", {"evento": evento})
 
 
-# ====== Minhas inscrições (com emissão automática) ======
+#Minhas inscrições 
 @login_required
 def minhas_inscricoes(request):
     insc = (Inscricao.objects
             .filter(participante=request.user)
             .select_related("evento"))
 
-    # Emissão automática de certificados para eventos encerrados com presença confirmada
+    # Emissão automática de certificados 
     hoje = timezone.now().date()
     for i in insc:
         if i.evento.data_fim <= hoje and i.presenca_confirmada:
@@ -268,7 +265,7 @@ def minhas_inscricoes(request):
     return render(request, "sgeaweb/inscricao/minhas.html", {"inscricoes": insc})
 
 
-# ====== Certificados ======
+#Certificados
 @user_passes_test(is_organizador)
 def emitir_certificado(request, pk_inscricao):
     insc = get_object_or_404(Inscricao, pk=pk_inscricao)
@@ -347,7 +344,7 @@ def certificado_pdf(request, pk_inscricao):
     return resp
 
 
-# ====== Tela do Organizador para consultar auditoria ======
+# Tela do Organizador
 @user_passes_test(is_organizador)
 def auditoria_list(request):
     qs = Auditoria.objects.all().select_related("usuario")

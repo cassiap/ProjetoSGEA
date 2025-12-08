@@ -1,4 +1,3 @@
-# sgeaweb/api/serializers.py — COMPLETO
 from rest_framework import serializers
 from django.utils import timezone
 from sgeaweb.models import Evento, Inscricao, TipoEvento

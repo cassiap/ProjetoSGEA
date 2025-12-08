@@ -39,7 +39,6 @@ class IsOwnerOrReadOnly(BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        # SAFE METHODS = GET, HEAD, OPTIONS
         if request.method in ("GET", "HEAD", "OPTIONS"):
             return True
 

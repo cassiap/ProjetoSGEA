@@ -1,5 +1,3 @@
-# Modelos do SGEA (Sistema de Gestão de Eventos Acadêmicos)
-
 from django.db import models
 from django.contrib.auth.models import User
 

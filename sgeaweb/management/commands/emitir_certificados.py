@@ -1,4 +1,3 @@
-# sgeaweb/management/commands/emitir_certificados.py
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.utils.crypto import get_random_string

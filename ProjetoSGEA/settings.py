@@ -1,5 +1,3 @@
-# ProjetoSGEA/settings.py — COMPLETO
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -7,7 +5,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'dev-not-secret'
 DEBUG = True
 
-# Execução local
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 # Apps
@@ -44,7 +41,6 @@ ROOT_URLCONF = 'ProjetoSGEA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Mantém os templates carregados via app (sgeaweb/templates/…)
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -60,7 +56,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ProjetoSGEA.wsgi.application'
 
-# Banco (SQLite p/ dev)
+# Banco
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -97,7 +93,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-# I18N / TZ
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
@@ -119,6 +114,6 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
-# E-mail (console p/ dev) — aparece formatado no terminal
+# E-mail
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "naoresponda@sgea.com"

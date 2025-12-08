@@ -1,4 +1,3 @@
-# sgeaweb/management/commands/seed_sgea.py
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
@@ -48,9 +47,7 @@ class Command(BaseCommand):
             perfil_tipo = dados["perfil"]
             instituicao = dados["instituicao"]
 
-            # ============================
             #   CRIAÇÃO OU ATUALIZAÇÃO DO USER
-            # ============================
             user, created = User.objects.get_or_create(
                 username=username,
                 defaults={
@@ -72,17 +69,15 @@ class Command(BaseCommand):
                     self.style.WARNING(f"Usuário já existia: {username} (senha não alterada).")
                 )
 
-            # ============================
             #   CRIA OU ATUALIZA PERFIL
-            # ============================
             perfil, perfil_created = PerfilUsuario.objects.get_or_create(
                 user=user,
                 defaults={
                     "telefone": "(61) 99999-9999",
                     "instituicao": instituicao,
                     "perfil": perfil_tipo,
-                    "email_confirmado": True,   # ✔️ marca como confirmado
-                    "confirma_token": None,     # ✔️ sem token necessário
+                    "email_confirmado": True,   #marca como confirmado
+                    "confirma_token": None,     #sem token necessário
                 },
             )
 

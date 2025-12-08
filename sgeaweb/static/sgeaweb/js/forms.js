@@ -1,5 +1,3 @@
-// sgeaweb/static/sgeaweb/js/forms.js
-
 // === Máscara de telefone: (XX) XXXXX-XXXX ===
 function aplicarMascaraTelefone(input) {
   input.addEventListener("input", function () {
@@ -25,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     aplicarMascaraTelefone(input);
   });
 
-  // ---- Datepicker / Timepicker (com detecção de recurso) ----
+  // ---- Datepicker / Timepicker----
   var temJQ = typeof window.$ !== "undefined";
   var temDatepicker = temJQ && typeof $.fn.datepicker !== "undefined";
   var temTimepicker = temJQ && typeof $.fn.timepicker !== "undefined";

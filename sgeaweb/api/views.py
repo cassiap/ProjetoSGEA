@@ -1,4 +1,3 @@
-# sgeaweb/api/views.py
 from rest_framework import generics, permissions
 from rest_framework.throttling import UserRateThrottle
 from rest_framework.authtoken.views import ObtainAuthToken
