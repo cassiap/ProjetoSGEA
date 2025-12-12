@@ -4,7 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SGEA — Gestão de Eventos Acadêmicos</title>
+  <title>SGEA - Gestão de Eventos Acadêmicos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'sgeaweb/css/main.css' %}?v=2025-12-07-02">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -18,7 +22,6 @@
              src="{% static 'sgeaweb/img/logo-sgea.svg' %}"
              onerror="this.onerror=null;this.src='{% static 'sgeaweb/img/logo-sgea.png' %}'"
              alt="SGEA">
-        <span class="brand-text">SGEA</span>
       </a>
 
       <nav class="menu" aria-label="Navegação principal">
@@ -31,9 +34,10 @@
             {% if p == 'ORGANIZADOR' %}
               <a href="{% url 'evento_list' %}">Gerenciar eventos</a>
               <a href="{% url 'evento_create' %}">Criar evento</a>
+              <a href="{% url 'auditoria_list' %}">Auditoria</a>
             {% endif %}
           {% endwith %}
-          <a href="{% url 'logout' %}">Sair</a>
+        <a href="{% url 'logout' %}">Sair</a>
         {% else %}
           <a href="{% url 'login' %}">Entrar</a>
           <a href="{% url 'cadastro' %}">Cadastro</a>

@@ -1,21 +1,30 @@
 {% extends "sgeaweb/base.html" %}
 {% block content %}
-<h1>Meus eventos</h1>
+<div class="row-between" style="margin-bottom:14px;">
+  <h1>Meus eventos</h1>
+  <a class="btn" href="{% url 'evento_create' %}">+ Criar evento</a>
+</div>
 
-<p><a class="btn" href="{% url 'evento_create' %}">+ Criar evento</a></p>
-
-<ul class="list-slim">
+<ul class="event-list">
   {% for e in eventos %}
-    <li>
-      <strong><a href="{% url 'evento_detalhe' e.id %}">{{ e.titulo }}</a></strong>
-      ({{ e.data_inicio|date:"d/m/Y" }} → {{ e.data_fim|date:"d/m/Y" }})
-      {% if not e.banner %} • <span class="muted">Sem banner</span>{% endif %}
-      — <a href="{% url 'evento_update' e.id %}">Editar</a> |
-        <a href="{% url 'evento_delete' e.id %}">Excluir</a> |
-        <a href="{% url 'evento_inscricoes' e.id %}">Inscritos</a>
+    <li class="card">
+      <div class="card-body">
+        <div class="card-title">{{ e.titulo }}</div>
+        <div class="card-sub">
+          {{ e.data_inicio|date:"d/m/Y" }} - {{ e.data_fim|date:"d/m/Y" }}
+          . {{ e.local }}
+        </div>
+        <div class="card-actions">
+          <a class="btn-outline" href="{% url 'evento_update' e.id %}">Editar</a>
+          <a class="btn-ghost" href="{% url 'evento_delete' e.id %}">Excluir</a>
+          <a class="btn-ghost" href="{% url 'evento_inscricoes' e.id %}">Inscritos</a>
+          <a class="btn-outline" href="{% url 'evento_detalhe' e.id %}">Ver detalhes</a>
+          {% if not e.banner %}<span class="badge muted">Sem banner</span>{% endif %}
+        </div>
+      </div>
     </li>
   {% empty %}
-    <li>Nenhum evento ainda.</li>
+    <li class="empty-state">Nenhum evento criado ainda.</li>
   {% endfor %}
 </ul>
 {% endblock %}

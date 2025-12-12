@@ -1,24 +1,25 @@
-
 {% extends "sgeaweb/base.html" %}
 
 {% block content %}
+<div class="panel">
   <h2>Acesso ao sistema</h2>
+  <p class="muted">Use seu usuário (e-mail) e senha. Após confirmar o e-mail você já consegue entrar.</p>
 
   <form method="post">
     {% csrf_token %}
-    
-    <p>
-      <label for="username">Usuário:</label>
+    <div class="field">
+      <label for="username">Usuário</label>
       <input type="text" name="username" id="username" required>
-    </p>
+    </div>
 
-    <p>
-      <label for="password">Senha:</label>
+    <div class="field">
+      <label for="password">Senha</label>
       <input type="password" name="password" id="password" required>
-    </p>
+    </div>
 
-    <button type="submit">Entrar</button>
+    <button type="submit" class="btn">Entrar</button>
   </form>
 
-  <p>Ainda não tem uma conta? <a href="{% url 'cadastro' %}">Cadastre-se aqui</a>.</p>
+  <p class="muted" style="margin-top:12px;">Não tem conta? <a href="{% url 'cadastro' %}">Cadastre-se</a>.</p>
+</div>
 {% endblock %}

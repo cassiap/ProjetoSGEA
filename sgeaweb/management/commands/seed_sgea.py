@@ -1,7 +1,11 @@
 
+from datetime import timedelta
+
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from sgeaweb.models import PerfilUsuario
+from django.utils import timezone
+
+from sgeaweb.models import PerfilUsuario, Evento, TipoEvento
 
 
 class Command(BaseCommand):
@@ -112,3 +116,81 @@ class Command(BaseCommand):
                     )
 
         self.stdout.write(self.style.SUCCESS("Seeding de usuários do SGEA concluído."))
+
+        # Cria tipos de evento
+        tipos = [
+            {"nome": "Palestra", "descricao": "Sessão expositiva com perguntas."},
+            {"nome": "Minicurso", "descricao": "Aulas práticas de curta duração."},
+            {"nome": "Workshop", "descricao": "Encontros com atividades práticas."},
+            {"nome": "Semana Acadêmica", "descricao": "Série de eventos temáticos."},
+        ]
+
+        tipo_map = {}
+        for t in tipos:
+            obj, _ = TipoEvento.objects.get_or_create(nome=t["nome"], defaults={"descricao": t["descricao"]})
+            tipo_map[t["nome"]] = obj
+
+        # Cria eventos de exemplo
+        try:
+            organizador = User.objects.get(username="organizador@sgea.com")
+            professor = User.objects.get(username="professor@sgea.com")
+        except User.DoesNotExist:
+            self.stdout.write(self.style.ERROR("Usuários base não encontrados; pulei criação de eventos."))
+            return
+
+        hoje = timezone.now().date()
+        exemplos = [
+            {
+                "titulo": "Semana Acadêmica de Tecnologia",
+                "descricao": "Trilha com mesas redondas, painéis de inovação e feira de projetos.",
+                "tipo": "Semana Acadêmica",
+                "inicio": hoje + timedelta(days=7),
+                "fim": hoje + timedelta(days=11),
+                "horario": "19:00",
+                "local": "Auditório Central",
+                "vagas": 120,
+            },
+            {
+                "titulo": "Minicurso de Django REST",
+                "descricao": "Construção de APIs com DRF, autenticação por token e throttling.",
+                "tipo": "Minicurso",
+                "inicio": hoje + timedelta(days=3),
+                "fim": hoje + timedelta(days=4),
+                "horario": "18:30",
+                "local": "Lab 2 - Bloco B",
+                "vagas": 35,
+            },
+            {
+                "titulo": "Palestra: Segurança em Aplicações Web",
+                "descricao": "Boas práticas de autenticação, OWASP Top 10 e exemplos em Python.",
+                "tipo": "Palestra",
+                "inicio": hoje + timedelta(days=14),
+                "fim": hoje + timedelta(days=14),
+                "horario": "20:00",
+                "local": "Auditório 1",
+                "vagas": 80,
+            },
+        ]
+
+        for ev in exemplos:
+            tipo_obj = tipo_map.get(ev["tipo"])
+            evento, created = Evento.objects.get_or_create(
+                titulo=ev["titulo"],
+                defaults={
+                    "TIPO": tipo_obj,
+                    "descricao": ev["descricao"],
+                    "data_inicio": ev["inicio"],
+                    "data_fim": ev["fim"],
+                    "horario": ev["horario"],
+                    "local": ev["local"],
+                    "vagas": ev["vagas"],
+                    "organizador": organizador,
+                    "responsavel": professor,
+                },
+            )
+            if created:
+                self.stdout.write(self.style.SUCCESS(f"Evento criado: {evento.titulo}"))
+            else:
+                self.stdout.write(self.style.WARNING(f"Evento já existia: {evento.titulo}"))
+
+        self.stdout.write(self.style.SUCCESS("Tipos e eventos de exemplo prontos."))

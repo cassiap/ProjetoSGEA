@@ -1,6 +1,28 @@
 {% extends "sgeaweb/base.html" %}
 {% block content %}
-<h1>Eventos Abertos</h1>
+
+<section class="hero">
+  <div>
+    <h1>SGEA - Sistema de Gestão de Eventos Acadêmicos</h1>
+    <p>Inscreva-se em seminários, minicursos e semanas acadêmicas. Gere certificados, acompanhe inscrições e mantenha os registros de auditoria em um só lugar.</p>
+  </div>
+  <div class="actions">
+    {% if user.is_authenticated %}
+      {% if user.perfil.perfil != "ORGANIZADOR" %}
+        <a class="btn" href="{% url 'minhas_inscricoes' %}">Ir para minhas inscrições</a>
+      {% endif %}
+      {% if user.perfil.perfil == "ORGANIZADOR" %}
+        <a class="btn" href="{% url 'evento_create' %}">Criar evento</a>
+        <a class="btn-ghost" href="{% url 'evento_list' %}">Gerenciar eventos</a>
+      {% endif %}
+    {% else %}
+      <a class="btn" href="{% url 'cadastro' %}">Criar conta</a>
+      <a class="btn-ghost" href="{% url 'login' %}">Já tenho conta</a>
+    {% endif %}
+  </div>
+</section>
+
+<h2 style="margin-top:18px;">Eventos abertos</h2>
 
 <ul class="event-list">
   {% for e in eventos %}
@@ -9,7 +31,7 @@
         {% if e.banner %}
           <img src="{{ e.banner.url }}" alt="Banner do evento {{ e.titulo }}">
         {% else %}
-          <div class="placeholder">Sem banner cadastrado</div>
+          <div class="placeholder">Banner não enviado</div>
         {% endif %}
       </figure>
 
@@ -17,17 +39,17 @@
         <div class="card-title">{{ e.titulo }}</div>
         <div class="card-sub">
           {{ e.data_inicio|date:"d/m/Y" }}
-          {% if e.data_fim != e.data_inicio %} → {{ e.data_fim|date:"d/m/Y" }}{% endif %}
-          • {{ e.local }}
+          {% if e.data_fim != e.data_inicio %} - {{ e.data_fim|date:"d/m/Y" }}{% endif %}
+          . {{ e.local }}
         </div>
         <div class="card-actions">
-          <a class="btn btn-outline" href="{% url 'evento_detalhe' e.id %}">Ver detalhes</a>
+          <a class="btn-outline" href="{% url 'evento_detalhe' e.id %}">Ver detalhes</a>
 
           {% if user.is_authenticated %}
             {% if user.perfil.perfil == "ORGANIZADOR" %}
-              <span class="card-sub">(Organizador não pode se inscrever)</span>
+              <span class="small-meta">(Organizador não pode se inscrever)</span>
             {% else %}
-              <a class="btn" href="{% url 'inscrever' e.id %}">Entrar para inscrever</a>
+              <a class="btn" href="{% url 'inscrever' e.id %}">Inscrever-se</a>
             {% endif %}
           {% else %}
             <a class="btn" href="{% url 'login' %}">Entrar para inscrever</a>
@@ -36,7 +58,12 @@
       </div>
     </li>
   {% empty %}
-    <li class="card"><div class="card-body">Nenhum evento disponível.</div></li>
+    <li class="empty-state">
+      <p>Nenhum evento disponível no momento.</p>
+      {% if user.is_authenticated and user.perfil.perfil == "ORGANIZADOR" %}
+        <a class="btn" href="{% url 'evento_create' %}">Criar primeiro evento</a>
+      {% endif %}
+    </li>
   {% endfor %}
 </ul>
 {% endblock %}

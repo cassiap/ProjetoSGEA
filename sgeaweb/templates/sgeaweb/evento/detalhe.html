@@ -8,34 +8,36 @@
       {% if evento.banner %}
         <img src="{{ evento.banner.url }}" alt="Banner do evento {{ evento.titulo }}">
       {% else %}
-        <div class="placeholder">Sem banner cadastrado</div>
+        <div class="placeholder">Banner não enviado</div>
       {% endif %}
     </div>
   </figure>
 
   <div class="detail-grid">
-    <div class="dl">
-      <dt>Tipo</dt><dd>{{ evento.tipo }}</dd>
-      <dt>Professor responsável</dt><dd>{{ evento.professor_responsavel }}</dd>
-      <dt>Local</dt><dd>{{ evento.local }}</dd>
-      <dt>Período</dt>
-      <dd>
-        {{ evento.data_inicio|date:"d/m/Y" }}
-        {% if evento.data_fim != evento.data_inicio %} → {{ evento.data_fim|date:"d/m/Y" }}{% endif %}
-      </dd>
-      <dt>Horário</dt><dd>{{ evento.horario }}</dd>
-      <dt>Vagas</dt><dd>{{ evento.vagas }}</dd>
+    <div class="panel">
+      <dl class="dl">
+        <dt>Tipo</dt><dd>{{ evento.TIPO.nome }}</dd>
+        <dt>Professor responsável</dt><dd>{{ evento.responsavel.get_full_name|default:evento.responsavel.username }}</dd>
+        <dt>Local</dt><dd>{{ evento.local }}</dd>
+        <dt>Período</dt>
+        <dd>
+          {{ evento.data_inicio|date:"d/m/Y" }}
+          {% if evento.data_fim != evento.data_inicio %} - {{ evento.data_fim|date:"d/m/Y" }}{% endif %}
+        </dd>
+        <dt>Horário</dt><dd>{{ evento.horario }}</dd>
+        <dt>Vagas</dt><dd>{{ evento.vagas }}</dd>
+      </dl>
     </div>
 
-    <div class="dl">
-      <dt>Descrição</dt>
-      <dd>{{ evento.descricao|linebreaks }}</dd>
+    <div class="panel">
+      <h3>Descrição</h3>
+      <p class="muted">{{ evento.descricao|linebreaks }}</p>
 
       <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
         {% if user.is_authenticated and user.perfil.perfil != "ORGANIZADOR" %}
           <a class="btn" href="{% url 'inscrever' evento.id %}">Inscrever-se</a>
         {% endif %}
-        <a class="btn btn-outline" href="javascript:history.back()">Voltar</a>
+        <a class="btn-outline" href="javascript:history.back()">Voltar</a>
       </div>
     </div>
   </div>

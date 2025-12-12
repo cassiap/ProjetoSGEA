@@ -205,7 +205,9 @@ def evento_inscricoes(request, pk):
     if ev.organizador != request.user:
         return HttpResponseForbidden("Não autorizado.")
 
-    inscritos = Inscricao.objects.filter(evento=ev).select_related("participante")
+    inscritos = (Inscricao.objects
+                 .filter(evento=ev)
+                 .select_related("participante", "certificado"))
     # trocado para 'inscricoes.html'
     return render(request, "sgeaweb/evento/inscricoes.html", {"evento": ev, "inscritos": inscritos})
 

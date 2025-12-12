@@ -23,4 +23,6 @@ urlpatterns = [
     path("certificados/emitir/<int:pk_inscricao>/", views.emitir_certificado, name="emitir_certificado"),
     path("certificados/<int:pk_inscricao>/", views.certificado_detalhe, name="certificado_detalhe"),
     path("certificados/<int:pk_inscricao>/pdf/", views.certificado_pdf, name="certificado_pdf"),
+    # Auditoria (somente organizadores)
+    path("auditoria/", views.auditoria_list, name="auditoria_list"),
 ]

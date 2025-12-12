@@ -1,28 +1,46 @@
 {% extends "sgeaweb/base.html" %}
 {% block content %}
-  <h2>Registros de Auditoria</h2>
+<div class="panel">
+  <div class="row-between" style="margin-bottom:12px;">
+    <h2>Registros de Auditoria</h2>
+    <a class="btn-ghost" href="{% url 'auditoria_list' %}">Limpar filtros</a>
+  </div>
 
-  <form method="get" style="margin:12px 0;">
-    <label>Dia (YYYY-MM-DD):
-      <input type="date" name="dia" value="{{ request.GET.dia }}">
-    </label>
-    <label>Usuário:
-      <input type="text" name="usuario" value="{{ request.GET.usuario }}">
-    </label>
-    <button type="submit">Filtrar</button>
-    <a class="btn-link" href="{% url 'auditoria_list' %}">Limpar</a>
+  <form method="get" class="form-grid">
+    <div class="field">
+      <label for="dia">Dia (YYYY-MM-DD)</label>
+      <input type="date" id="dia" name="dia" value="{{ request.GET.dia }}">
+    </div>
+    <div class="field">
+      <label for="usuario">Usuário</label>
+      <input type="text" id="usuario" name="usuario" value="{{ request.GET.usuario }}" placeholder="username">
+    </div>
+    <div class="field" style="align-self:end;">
+      <button type="submit" class="btn">Filtrar</button>
+    </div>
   </form>
 
-  <ul>
-    {% for r in registros %}
-      <li>
-        <strong>{{ r.data_hora|date:"d/m/Y H:i" }}</strong> —
-        <em>{{ r.usuario|default:"(sistema)" }}</em> —
-        <code>{{ r.acao }}</code> —
-        {{ r.descricao }}
-      </li>
-    {% empty %}
-      <li>Nenhum registro encontrado.</li>
-    {% endfor %}
-  </ul>
+  <table class="table-like" style="margin-top:12px;">
+    <thead>
+      <tr>
+        <th>Data/Hora</th>
+        <th>Usuário</th>
+        <th>Ação</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in registros %}
+        <tr>
+          <td>{{ r.data_hora|date:"d/m/Y H:i" }}</td>
+          <td>{{ r.usuario|default:"(sistema)" }}</td>
+          <td><span class="badge">{{ r.acao }}</span></td>
+          <td>{{ r.descricao }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4" class="muted">Nenhum registro encontrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

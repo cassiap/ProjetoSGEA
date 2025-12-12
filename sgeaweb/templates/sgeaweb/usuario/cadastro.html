@@ -1,16 +1,17 @@
-
 {% extends "sgeaweb/base.html" %}
 
 {% block content %}
+<div class="panel">
   <h2>Criar nova conta</h2>
+  <p class="muted">Preencha seus dados, confirme o e-mail e comece a se inscrever nos eventos.</p>
 
-  <form method="post">
+  <form method="post" class="grid">
     {% csrf_token %}
     {{ uform.as_p }}
     {{ pform.as_p }}
-
-    <button type="submit">Cadastrar</button>
+    <button type="submit" class="btn">Cadastrar</button>
   </form>
 
-  <p>Já possui conta? <a href="{% url 'login' %}">Faça login aqui</a>.</p>
+  <p class="muted" style="margin-top:12px;">Já possui conta? <a href="{% url 'login' %}">Faça login</a>.</p>
+</div>
 {% endblock %}
