@@ -150,3 +150,38 @@ RA: **22252157**
 Curso: **Ciência da Computação — 7º semestre**
 
 Brasília, outubro de 2025.
+
+## 📝 Dicas rápidas para versionar alterações
+
+Se você encontrou a mensagem de erro `Aborting commit due to empty commit message`,
+significa que o Git esperou um texto e o editor foi fechado vazio. Para evitar o
+problema e registrar suas mudanças com clareza, siga estes passos:
+
+1. **Confirme o que mudou:**
+
+   ```bash
+   git status -sb
+   ```
+
+2. **Adicione os arquivos desejados:**
+
+   ```bash
+   git add caminho/do/arquivo1 caminho/do/arquivo2
+   # ou, se tiver certeza, tudo de uma vez
+   git add .
+   ```
+
+3. **Faça o commit já com mensagem:**
+
+   ```bash
+   git commit -m "Descreva aqui o que mudou"
+   ```
+
+4. **Envie para o repositório remoto (se houver):**
+
+   ```bash
+   git push
+   ```
+
+Usar `git commit -m` evita abrir o editor e garante que o commit tenha uma
+mensagem descritiva desde o início.
