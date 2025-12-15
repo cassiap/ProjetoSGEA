@@ -304,7 +304,7 @@ erDiagram
 
 ## Requisitos/Dependências
 
-Crie/atualize `requirements.txt` (se ainda não existir):
+Crie/atualize `requirements.txt`:
 ```
 Django>=5.0,<6.0
 djangorestframework>=3.15
