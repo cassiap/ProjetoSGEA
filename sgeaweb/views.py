@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseForbidden
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.templatetags.static import static
+from django.conf import settings
 
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -34,7 +36,15 @@ def enviar_email_confirmacao(usuario, token):
     assunto = "Confirme seu cadastro no SGEA"
     remetente = "naoresponda@sgea.com"
     destinatario = [usuario.email]
-    contexto = {"usuario": usuario, "token": token}
+    base_url = getattr(settings, "SITE_URL", "http://127.0.0.1:8000")
+    confirm_link = f"{base_url}/confirmar/{token}"
+    logo_url = f"{base_url}{static('sgeaweb/img/logo-sgea.png')}"
+    contexto = {
+        "usuario": usuario,
+        "token": token,
+        "confirm_link": confirm_link,
+        "logo_url": logo_url,
+    }
 
     html = render_to_string("email/confirmacao.html", contexto)
     email = EmailMultiAlternatives(assunto, "", remetente, destinatario)

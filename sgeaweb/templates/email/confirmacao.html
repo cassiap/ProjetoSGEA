@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>Confirme seu cadastro - SGEA</title>
+  <style>
+    body{margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background:#0f172a;color:#e2e8f0;}
+    .wrapper{max-width:640px;margin:0 auto;padding:28px 18px;}
+    .card{background:#0b1222;border:1px solid #1f2a44;border-radius:14px;padding:24px;box-shadow:0 12px 30px rgba(0,0,0,.28);}
+    .logo{height:40px;display:block;margin-bottom:18px;}
+    h1{margin:0 0 12px;font-size:22px;color:#e2f3ff;}
+    p{margin:0 0 12px;line-height:1.5;}
+    .btn{display:inline-block;background:linear-gradient(135deg,#38bdf8,#0ea5e9);color:#0b1222;font-weight:700;padding:12px 18px;border-radius:12px;text-decoration:none;}
+    .muted{color:#94a3b8;font-size:13px;}
+    .token{font-family:Menlo,Consolas,monospace;color:#38bdf8;}
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <img class="logo" src="{{ logo_url }}" alt="SGEA">
+      <h1>Confirme seu cadastro</h1>
+      <p>Ola {{ usuario.get_full_name|default:usuario.username }},</p>
+      <p>Obrigado por se cadastrar no <strong>SGEA - Sistema de Gestao de Eventos Academicos</strong>. Para ativar sua conta, confirme seu e-mail clicando no botao abaixo:</p>
+      <p>
+        <a class="btn" href="{{ confirm_link }}">Confirmar meu e-mail</a>
+      </p>
+      <p class="muted">Se o botao nao funcionar, copie e cole este link no navegador:<br>
+        <span class="token">{{ confirm_link }}</span>
+      </p>
+      <p class="muted">Se voce nao solicitou este cadastro, ignore este e-mail.</p>
+    </div>
+  </div>
+</body>
+</html>

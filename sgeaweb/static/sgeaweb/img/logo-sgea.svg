@@ -1,0 +1,13 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="200" height="48" viewBox="0 0 200 48" role="img" aria-label="SGEA">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#g)"/>
+  <path d="M14 14h18v4H18v4h12v4H18v6h14v4H14z" fill="#0b1222"/>
+  <circle cx="34" cy="18" r="2" fill="#e0f2fe"/>
+  <text x="60" y="29" fill="#0f3d91" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-size="22" font-weight="700" letter-spacing="0.8">SGEA</text>
+  <text x="60" y="41" fill="#35507a" font-family="'Space Grotesk','Inter','Segoe UI',sans-serif" font-size="11" letter-spacing="0.4">Eventos Academicos</text>
+</svg>
